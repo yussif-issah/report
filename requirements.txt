@@ -11,4 +11,3 @@ mysqlclient==2.1.1
 six==1.16.0
 Werkzeug==2.2.2
 psycopg2
-os
