@@ -14,8 +14,8 @@ def createTables():
     cursor.execute(''' CREATE TABLE REPORTS(
         ID serial  primary key,
         CATEGORY varchar(255), 
-        LONGITUDE varchar(255),
-        LATITUDE varchar(255),
+        LONGITUDE double,
+        LATITUDE double,
         USER_ID int,
         MESSAGE varchar(255)''')
     conn.commit()
