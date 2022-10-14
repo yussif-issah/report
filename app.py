@@ -17,10 +17,8 @@ def createTables():
         LONGITUDE varchar(255),
         LATITUDE varchar(255),
         USER_ID int,
-        MESSAGE varchar(255),
-        ''')
+        MESSAGE varchar(255)''')
     conn.commit()
-    cursor.close() 
 
 def getCursor():
     return mysql.connection.cursor()
