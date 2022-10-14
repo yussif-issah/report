@@ -1,25 +1,28 @@
 from flask import Flask,render_template,request,url_for,redirect,jsonify,abort
 from flask_mysqldb import MySQL
 from flask_cors import CORS,cross_origin
+import os
+import psycopg2
+
 app = Flask(__name__)
 CORS(app)
 
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] =''
-app.config['MYSQL_DB'] = 'Report'
- 
-mysql = MySQL(app)
+conn = psycopg2.connect(
+        host="ec2-3-229-252-6.compute-1.amazonaws.com",
+        database="d434aon9972dqg",
+        user="fglsjwcckfrrvl",
+        password="67273dcf40774a714b3886b7617a1f3931f77c5727efcc31d7bd5ec7185e73da"
+
 
 def createTables():
-    cursor = mysql.connection.cursor()
-    cursor.execute(''' CREATE TABLE USERS(
+    cursor = conn.cursor()
+    cursor.execute(' CREATE TABLE USERS(
         ID  int primary key auto_increment,
         NAME varchar(255), 
         EMAIL varchar(255),
         PASSWORD varchar(255))
-        ''')
-    cursor.execute('''CREATE TABLE REPORTS(
+        ')
+    cursor.execute('CREATE TABLE REPORTS(
         ID int  primary key auto_increment,
         CATEGORY varchar(255), 
         LONGITUDE double,
@@ -28,8 +31,8 @@ def createTables():
         MESSAGE VARCHAR(255),
         constraint FK_USER_ID foreign key(USER_ID) references USERS(ID)
         ON DELETE CASCADE)
-        ''')
-    mysql.connection.commit()
+        ')
+    conn.commit()
     cursor.close() 
 
 def getCursor():
