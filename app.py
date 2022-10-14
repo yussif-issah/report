@@ -7,12 +7,7 @@ import psycopg2
 app = Flask(__name__)
 CORS(app)
 
-conn = psycopg2.connect(
-        host="ec2-3-229-252-6.compute-1.amazonaws.com",
-        database="d434aon9972dqg",
-        user="fglsjwcckfrrvl",
-        password="67273dcf40774a714b3886b7617a1f3931f77c5727efcc31d7bd5ec7185e73da"
-
+conn = psycopg2.connect("postgres://fglsjwcckfrrvl:67273dcf40774a714b3886b7617a1f3931f77c5727efcc31d7bd5ec7185e73da@ec2-3-229-252-6.compute-1.amazonaws.com:5432/d434aon9972dqg")
 
 def createTables():
     cursor = conn.cursor()
