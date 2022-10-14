@@ -17,6 +17,7 @@ def createTables():
         EMAIL varchar(255),
         PASSWORD varchar(255))
         ''')
+    conn.commit()
     cursor.execute('''CREATE TABLE REPORTS(
         ID serial  primary key,
         CATEGORY varchar(255), 
