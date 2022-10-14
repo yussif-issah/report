@@ -12,20 +12,19 @@ conn = psycopg2.connect("postgres://fglsjwcckfrrvl:67273dcf40774a714b3886b7617a1
 def createTables():
     cursor = conn.cursor()
     cursor.execute('''CREATE TABLE USERS(
-        ID  int primary key auto_increment,
+        ID  serial primary key,
         NAME varchar(255), 
         EMAIL varchar(255),
         PASSWORD varchar(255))
         ''')
     cursor.execute('''CREATE TABLE REPORTS(
-        ID int  primary key auto_increment,
+        ID serial  primary key,
         CATEGORY varchar(255), 
         LONGITUDE double,
         LATITUDE double,
         USER_ID int,
         MESSAGE VARCHAR(255),
-        constraint FK_USER_ID foreign key(USER_ID) references USERS(ID)
-        ON DELETE CASCADE)''')
+        ''')
     conn.commit()
     cursor.close() 
 
