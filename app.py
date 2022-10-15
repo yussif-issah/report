@@ -58,11 +58,11 @@ def createReport():
         latitude = data['latitude']
         user_id = data['user_id']
         message = data['message']
-        cursor = mysql.connection.cursor()
+        cursor = conn.cursor()
         cursor.execute('''
             INSERT INTO REPORTS(category,longitude,latitude,user_id,message) VALUES(%s,%s,%s,%s,%s)
             ''',(category,longitude,latitude,user_id,message))
-        commit()
+        conn.commit()
         cursor.close()
         return data
     except:
@@ -73,7 +73,7 @@ def login():
     login_details = request.get_json()
     email = login_details['email']
     password = login_details['password']
-    cursor = mysql.connection.cursor()
+    cursor = conn.cursor()
     cursor.execute('SELECT * FROM USERS WHERE EMAIL =%s  AND PASSWORD=%s',(email,password))
     userData=cursor.fetchone()
     if userData is None:
@@ -90,7 +90,7 @@ def login():
 @app.route("/get-count-by-category",methods=['GET'])
 @cross_origin()
 def getCountByCategory():
-    cursor = mysql.connection.cursor()
+    cursor = conn.cursor()
     cursor.execute('SELECT category,count(*) FROM reports group by category')
     results = cursor.fetchall()
     graph_data =[]
