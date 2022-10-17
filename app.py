@@ -59,9 +59,9 @@ def createReport():
         user_id = data['user_id']
         message = data['message']
         cursor = conn.cursor()
-        cursor.execute('''
-            INSERT INTO REPORTS(category,longitude,latitude,user_id,message) VALUES(%s,%s,%s,%s,%s)
-            ''',(category,longitude,latitude,user_id,message))
+        query="""INSERT INTO REPORTS(category,longitude,latitude,user_id,message) VALUES(%s,%s,%s,%s,%s)"""
+        values = (category,longitude,latitude,user_id,message)
+        cursor.execute(query,values)
         conn.commit()
         cursor.close()
         return data
