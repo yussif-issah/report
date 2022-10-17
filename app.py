@@ -40,9 +40,8 @@ def index():
         email = data['email']
         password = data['password']
         cursor = mysql.connection.cursor()
-        cursor.execute('''
-        INSERT INTO USERS(name,email,password) VALUES(%s,%s,%s)
-        ''',(name,email,password))
+        cursor.execute("
+        INSERT INTO USERS(name,email,password) VALUES(:name,:email,:password)",{"name": name, "email": email, "password":password})
         commit()
         cursor.close()
         return data
