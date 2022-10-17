@@ -39,10 +39,11 @@ def index():
         name = data['name']
         email = data['email']
         password = data['password']
-        cursor = mysql.connection.cursor()
-        cursor.execute("
-        INSERT INTO USERS(name,email,password) VALUES(:name,:email,:password)",{"name": name, "email": email, "password":password})
-        commit()
+        cursor = conn.cursor()
+        query=""" INSERT INTO USERS(name,email,password) VALUES(name,email,password) """
+        values = (name,email,password)
+        cursor.execute(query,values)
+        conn.commit()
         cursor.close()
         return data
     except:
