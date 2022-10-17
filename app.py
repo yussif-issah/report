@@ -40,7 +40,7 @@ def index():
         email = data['email']
         password = data['password']
         cursor = conn.cursor()
-        query=""" INSERT INTO USERS(name,email,password) VALUES(name,email,password) """
+        query=""" INSERT INTO USERS(name,email,password) VALUES(%s,%s,%s) """
         values = (name,email,password)
         cursor.execute(query,values)
         conn.commit()
