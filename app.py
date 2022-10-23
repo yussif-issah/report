@@ -3,10 +3,13 @@ from flask_mysqldb import MySQL
 from flask_cors import CORS,cross_origin
 import os
 import psycopg2
+import base64
+from io import BytesIO
+from PIL import Image
 
 app = Flask(__name__)
 CORS(app)
-
+app.config['UPLOAD_FOLDER'] = 'images'
 conn = psycopg2.connect("postgres://fglsjwcckfrrvl:67273dcf40774a714b3886b7617a1f3931f77c5727efcc31d7bd5ec7185e73da@ec2-3-229-252-6.compute-1.amazonaws.com:5432/d434aon9972dqg")
 
 def createTables():
@@ -17,6 +20,7 @@ def createTables():
         LONGITUDE varchar(255),
         LATITUDE varchar(255),
         USER_ID int,
+        IMAGENAME varchar(255),
         MESSAGE varchar(255))''')
     conn.commit()
 
@@ -58,9 +62,15 @@ def createReport():
         latitude = data['latitude']
         user_id = data['user_id']
         message = data['message']
+        imageString = data["image"]
+        image = Image.open(BytesIO(base64.b64decode(imageString)))
+        day = datetime.now().day
+        minute= datetime.now().minute
+        name = str(day)+str(minute)+"image.jpg"
+        image.save(os.path.join(app.config['UPLOAD_FOLDER'],name))
         cursor = conn.cursor()
-        query="""INSERT INTO REPORTS(category,longitude,latitude,user_id,message) VALUES(%s,%s,%s,%s,%s)"""
-        values = (category,longitude,latitude,user_id,message)
+        query="""INSERT INTO REPORTS(category,longitude,latitude,user_id,message,imagename) VALUES(%s,%s,%s,%s,%s)"""
+        values = (category,longitude,latitude,user_id,message,name)
         cursor.execute(query,values)
         conn.commit()
         cursor.close()
